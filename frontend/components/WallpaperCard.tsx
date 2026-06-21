@@ -16,6 +16,7 @@ interface Wallpaper {
 
 export default function WallpaperCard({ wallpaper }: { wallpaper: Wallpaper }) {
   const [isFav, setIsFav] = useState(false);
+  const [imgLoaded, setImgLoaded] = useState(false);
 
   useEffect(() => {
     const favs = JSON.parse(localStorage.getItem('ai_wallpaper_favs') || '[]');
@@ -42,11 +43,7 @@ export default function WallpaperCard({ wallpaper }: { wallpaper: Wallpaper }) {
     e.preventDefault();
     const shareUrl = `${window.location.origin}/w/${wallpaper.id}`;
     if (navigator.share) {
-      navigator.share({
-        title: 'AI Wallpaper Hub',
-        text: `Check out this wallpaper: ${wallpaper.id}`,
-        url: shareUrl,
-      }).catch(() => {});
+      navigator.share({ title: 'AI Wallpaper Hub', text: `Check out this wallpaper: ${wallpaper.id}`, url: shareUrl }).catch(() => {});
     } else {
       navigator.clipboard.writeText(shareUrl);
       alert('Link copied!');
@@ -54,27 +51,33 @@ export default function WallpaperCard({ wallpaper }: { wallpaper: Wallpaper }) {
   };
 
   return (
-    <div className="relative group rounded-lg overflow-hidden bg-gray-900 shadow-md">
+    <div className="group relative rounded-xl overflow-hidden bg-gray-900/60 backdrop-blur-sm border border-white/10 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
       <Link href={`/w/${wallpaper.id}`}>
-        <img
-          src={wallpaper.imageUrl}
-          alt={wallpaper.prompt}
-          className="w-full"
-          style={{ aspectRatio: '9/16' }}
-          loading="lazy"
-        />
+        <div className="relative w-full" style={{ aspectRatio: '9/16' }}>
+          {!imgLoaded && (
+            <div className="absolute inset-0 bg-gray-800 animate-pulse rounded-t-xl" />
+          )}
+          <img
+            src={wallpaper.imageUrl}
+            alt={wallpaper.prompt}
+            className={`w-full h-full object-cover transition-opacity duration-500 ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
+            onLoad={() => setImgLoaded(true)}
+            loading="lazy"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
+        </div>
       </Link>
-      <div className="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/70 to-transparent flex justify-between items-center text-white text-sm">
-        <span className="text-xs truncate">{wallpaper.category}</span>
+      <div className="absolute bottom-0 left-0 right-0 p-3 flex justify-between items-end text-white">
+        <span className="text-xs font-medium bg-white/10 backdrop-blur-md px-2 py-0.5 rounded-full">{wallpaper.category}</span>
         <div className="flex gap-2">
-          <button onClick={toggleFav} className="hover:scale-110">
-            <FontAwesomeIcon icon={faHeart} className={isFav ? 'text-red-500' : 'text-white'} />
+          <button onClick={toggleFav} className="p-1.5 bg-white/10 backdrop-blur-md rounded-full hover:bg-white/20 transition-colors">
+            <FontAwesomeIcon icon={faHeart} className={`text-sm ${isFav ? 'text-red-500 drop-shadow-[0_0_6px_rgba(239,68,68,0.8)]' : 'text-white'}`} />
           </button>
-          <button onClick={handleDownload} className="hover:scale-110">
-            <FontAwesomeIcon icon={faDownload} />
+          <button onClick={handleDownload} className="p-1.5 bg-white/10 backdrop-blur-md rounded-full hover:bg-white/20 transition-colors">
+            <FontAwesomeIcon icon={faDownload} className="text-sm" />
           </button>
-          <button onClick={handleShare} className="hover:scale-110">
-            <FontAwesomeIcon icon={faShare} />
+          <button onClick={handleShare} className="p-1.5 bg-white/10 backdrop-blur-md rounded-full hover:bg-white/20 transition-colors">
+            <FontAwesomeIcon icon={faShare} className="text-sm" />
           </button>
         </div>
       </div>
