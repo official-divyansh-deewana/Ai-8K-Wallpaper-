@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 interface Wallpaper {
   id: string;
@@ -12,6 +12,14 @@ interface Wallpaper {
   category: string;
   timestamp: string;
   resolution: string;
+}
+
+function SkeletonCard() {
+  return (
+    <div className="rounded-xl overflow-hidden bg-gray-900/60 border border-white/10" style={{ aspectRatio: '9/16' }}>
+      <div className="w-full h-full animate-shimmer" />
+    </div>
+  );
 }
 
 export default function FavoritesPage() {
@@ -35,28 +43,57 @@ export default function FavoritesPage() {
   }, []);
 
   return (
-    <main className="max-w-md mx-auto px-4 py-6">
-      <div className="flex items-center gap-3 mb-4">
-        <Link href="/" className="text-gray-400 hover:text-white">
-          ← Back
+    <main className="max-w-md mx-auto px-4 pt-8 pb-6">
+      <div className="flex items-center gap-4 mb-6">
+        <Link href="/" className="text-gray-400 hover:text-white transition-colors">
+          <FontAwesomeIcon icon={faArrowLeft} className="text-xl" />
         </Link>
-        <h1 className="text-xl font-bold">Favorites</h1>
+        <h1 className="text-2xl font-bold bg-gradient-to-r from-pink-400 to-rose-400 bg-clip-text text-transparent">
+          Your Saved Wallpapers
+        </h1>
       </div>
 
       {loading ? (
-        <div className="text-center py-20 text-gray-400">Loading...</div>
+        <div className="grid grid-cols-2 gap-3">
+          {[...Array(4)].map((_, i) => (
+            <SkeletonCard key={i} />
+          ))}
+        </div>
       ) : favorites.length === 0 ? (
-        <div className="text-center py-20 text-gray-500">
-          <FontAwesomeIcon icon={faHeart} className="text-3xl mb-2 text-gray-600" />
-          <p>No favorites yet. Tap the heart on any wallpaper to save it.</p>
+        <div className="text-center py-20">
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white/5 border border-white/10 mb-4">
+            <FontAwesomeIcon icon={faHeart} className="text-3xl text-gray-600" />
+          </div>
+          <p className="text-gray-400 text-sm">No saved wallpapers yet.</p>
+          <p className="text-gray-600 text-xs mt-1">Tap the heart on any wallpaper to save it.</p>
+          <Link
+            href="/"
+            className="mt-6 inline-block px-6 py-2 bg-indigo-600/80 hover:bg-indigo-600 text-white text-sm font-semibold rounded-full transition-colors backdrop-blur-md"
+          >
+            Discover Wallpapers
+          </Link>
         </div>
       ) : (
         <div className="grid grid-cols-2 gap-3">
           {favorites.map(wp => (
-            <Link key={wp.id} href={`/w/${wp.id}`} className="block rounded-lg overflow-hidden bg-gray-900 shadow">
-              <img src={wp.imageUrl} alt={wp.prompt} className="w-full" style={{ aspectRatio: '9/16' }} />
-              <div className="p-2">
-                <p className="text-xs text-gray-400 truncate">{wp.category}</p>
+            <Link
+              key={wp.id}
+              href={`/w/${wp.id}`}
+              className="group relative rounded-xl overflow-hidden bg-gray-900/60 backdrop-blur-sm border border-white/10 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
+              style={{ aspectRatio: '9/16' }}
+            >
+              <img
+                src={wp.imageUrl}
+                alt={wp.prompt}
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
+              <div className="absolute bottom-2 left-2 right-2 flex justify-between items-end">
+                <span className="text-xs font-medium bg-white/10 backdrop-blur-md px-2 py-0.5 rounded-full text-white">
+                  {wp.category}
+                </span>
+                <FontAwesomeIcon icon={faHeart} className="text-red-500 drop-shadow-[0_0_6px_rgba(239,68,68,0.8)]" />
               </div>
             </Link>
           ))}
