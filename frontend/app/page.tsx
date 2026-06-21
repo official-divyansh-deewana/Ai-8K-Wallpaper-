@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faDownload, faShare } from '@fortawesome/free-solid-svg-icons';
+import { faWandMagicSparkles } from '@fortawesome/free-solid-svg-icons';
 import CategoryBar from '@/components/CategoryBar';
 import WallpaperCard from '@/components/WallpaperCard';
 
@@ -13,6 +13,14 @@ interface Wallpaper {
   category: string;
   timestamp: string;
   resolution: string;
+}
+
+function SkeletonCard() {
+  return (
+    <div className="rounded-xl overflow-hidden bg-gray-900/60 border border-white/10" style={{ aspectRatio: '9/16' }}>
+      <div className="w-full h-full animate-shimmer" />
+    </div>
+  );
 }
 
 export default function HomePage() {
@@ -35,19 +43,33 @@ export default function HomePage() {
     : wallpapers.filter(w => w.category === selectedCategory);
 
   return (
-    <main className="max-w-md mx-auto px-4 py-6">
-      <h1 className="text-2xl font-bold mb-4">AI Wallpaper Hub</h1>
+    <main className="max-w-md mx-auto px-4 pt-8 pb-6">
+      <div className="mb-6 text-center">
+        <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+          AI Wallpaper Hub
+        </h1>
+        <p className="text-gray-400 text-sm mt-1">Stunning wallpapers, generated every hour</p>
+      </div>
+
       <CategoryBar
         selected={selectedCategory}
         onSelect={setSelectedCategory}
       />
 
       {loading ? (
-        <div className="text-center py-20 text-gray-400">Loading wallpapers...</div>
+        <div className="grid grid-cols-2 gap-3 mt-6">
+          {[...Array(4)].map((_, i) => (
+            <SkeletonCard key={i} />
+          ))}
+        </div>
       ) : filtered.length === 0 ? (
-        <div className="text-center py-20 text-gray-500">No wallpapers yet. Check back soon!</div>
+        <div className="text-center py-16 text-gray-500">
+          <FontAwesomeIcon icon={faWandMagicSparkles} className="text-4xl mb-3 opacity-50" />
+          <p className="text-sm">No wallpapers yet.</p>
+          <p className="text-xs text-gray-600 mt-1">They auto-update hourly.</p>
+        </div>
       ) : (
-        <div className="grid grid-cols-2 gap-3 mt-4">
+        <div className="grid grid-cols-2 gap-3 mt-6">
           {filtered.map(wp => (
             <WallpaperCard key={wp.id} wallpaper={wp} />
           ))}
