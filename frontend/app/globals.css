@@ -13,8 +13,10 @@ html {
 }
 
 body {
-  background: radial-gradient(ellipse at top, #0f172a, #020617);
+  background: #000000;
   color: #f1f5f9;
+  /* baaki same */
+}
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   min-height: 100vh;
   -webkit-tap-highlight-color: transparent;
