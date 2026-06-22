@@ -16,7 +16,7 @@ interface Wallpaper {
 
 function SkeletonCard() {
   return (
-    <div className="rounded-xl overflow-hidden bg-gray-900/60 border border-white/10" style={{ aspectRatio: '9/16' }}>
+    <div className="rounded-3xl overflow-hidden bg-black border border-white/5" style={{ aspectRatio: '9/16' }}>
       <div className="w-full h-full animate-shimmer" />
     </div>
   );
@@ -55,9 +55,7 @@ export default function FavoritesPage() {
 
       {loading ? (
         <div className="grid grid-cols-2 gap-3">
-          {[...Array(4)].map((_, i) => (
-            <SkeletonCard key={i} />
-          ))}
+          {[...Array(4)].map((_, i) => <SkeletonCard key={i} />)}
         </div>
       ) : favorites.length === 0 ? (
         <div className="text-center py-20">
@@ -68,7 +66,7 @@ export default function FavoritesPage() {
           <p className="text-gray-600 text-xs mt-1">Tap the heart on any wallpaper to save it.</p>
           <Link
             href="/"
-            className="mt-6 inline-block px-6 py-2 bg-indigo-600/80 hover:bg-indigo-600 text-white text-sm font-semibold rounded-full transition-colors backdrop-blur-md"
+            className="mt-6 inline-block px-6 py-2 bg-indigo-600/80 hover:bg-indigo-600 text-white text-sm font-semibold rounded-full transition-colors"
           >
             Discover Wallpapers
           </Link>
@@ -79,7 +77,7 @@ export default function FavoritesPage() {
             <Link
               key={wp.id}
               href={`/w/${wp.id}`}
-              className="group relative rounded-xl overflow-hidden bg-gray-900/60 backdrop-blur-sm border border-white/10 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
+              className="group relative rounded-3xl overflow-hidden bg-black shadow-[0_0_20px_rgba(99,102,241,0.15)] hover:shadow-[0_0_30px_rgba(99,102,241,0.3)] transition-shadow duration-500"
               style={{ aspectRatio: '9/16' }}
             >
               <img
@@ -88,9 +86,9 @@ export default function FavoritesPage() {
                 className="w-full h-full object-cover"
                 loading="lazy"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
-              <div className="absolute bottom-2 left-2 right-2 flex justify-between items-end">
-                <span className="text-xs font-medium bg-white/10 backdrop-blur-md px-2 py-0.5 rounded-full text-white">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+              <div className="absolute bottom-3 left-3 right-3 flex justify-between items-end">
+                <span className="text-xs font-medium bg-black/40 backdrop-blur-md px-2 py-0.5 rounded-full text-white">
                   {wp.category}
                 </span>
                 <FontAwesomeIcon icon={faHeart} className="text-red-500 drop-shadow-[0_0_6px_rgba(239,68,68,0.8)]" />
