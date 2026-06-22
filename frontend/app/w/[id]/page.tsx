@@ -73,7 +73,7 @@ export default function WallpaperPage() {
       <main className="max-w-md mx-auto px-4 pt-8 pb-6 text-center text-gray-400">
         <div className="animate-pulse space-y-4">
           <div className="h-4 w-20 bg-gray-800 rounded" />
-          <div className="h-80 bg-gray-800 rounded-xl" />
+          <div className="h-80 bg-gray-800 rounded-3xl" />
           <div className="h-8 w-1/2 bg-gray-800 rounded" />
         </div>
       </main>
@@ -96,14 +96,14 @@ export default function WallpaperPage() {
         <Link href="/" className="text-gray-400 hover:text-white transition-colors">
           <FontAwesomeIcon icon={faArrowLeft} className="text-xl" />
         </Link>
-        <span className="text-xs font-semibold bg-white/10 backdrop-blur-md px-3 py-1 rounded-full text-white">
+        <span className="text-xs font-semibold bg-black/40 backdrop-blur-md px-3 py-1 rounded-full text-white">
           {wallpaper.category} &middot; {wallpaper.resolution}
         </span>
       </div>
 
-      <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-indigo-500/10 border border-white/10">
+      <div className="relative rounded-3xl overflow-hidden shadow-2xl shadow-indigo-500/10 border border-white/5">
         {!imgLoaded && (
-          <div className="absolute inset-0 bg-gray-800 animate-shimmer rounded-2xl" />
+          <div className="absolute inset-0 bg-gray-900 animate-shimmer rounded-3xl" />
         )}
         <img
           src={wallpaper.imageUrl}
@@ -115,27 +115,18 @@ export default function WallpaperPage() {
       </div>
 
       <div className="flex items-center justify-around mt-5 mb-6">
-        <button
-          onClick={toggleFav}
-          className="flex flex-col items-center text-gray-300 hover:text-white transition-colors"
-        >
+        <button onClick={toggleFav} className="flex flex-col items-center text-gray-300 hover:text-white transition-colors">
           <FontAwesomeIcon
             icon={faHeart}
             className={`text-2xl ${isFav ? 'text-red-500 drop-shadow-[0_0_8px_rgba(239,68,68,0.9)]' : ''}`}
           />
           <span className="text-xs mt-1">{isFav ? 'Saved' : 'Save'}</span>
         </button>
-        <button
-          onClick={handleDownload}
-          className="flex flex-col items-center text-gray-300 hover:text-white transition-colors"
-        >
+        <button onClick={handleDownload} className="flex flex-col items-center text-gray-300 hover:text-white transition-colors">
           <FontAwesomeIcon icon={faDownload} className="text-2xl" />
           <span className="text-xs mt-1">Download</span>
         </button>
-        <button
-          onClick={handleShare}
-          className="flex flex-col items-center text-gray-300 hover:text-white transition-colors"
-        >
+        <button onClick={handleShare} className="flex flex-col items-center text-gray-300 hover:text-white transition-colors">
           <FontAwesomeIcon icon={faShare} className="text-2xl" />
           <span className="text-xs mt-1">Share</span>
         </button>
