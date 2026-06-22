@@ -17,7 +17,7 @@ interface Wallpaper {
 
 function SkeletonCard() {
   return (
-    <div className="rounded-xl overflow-hidden bg-gray-900/60 border border-white/10" style={{ aspectRatio: '9/16' }}>
+    <div className="rounded-3xl overflow-hidden bg-black border border-white/5" style={{ aspectRatio: '9/16' }}>
       <div className="w-full h-full animate-shimmer" />
     </div>
   );
@@ -51,16 +51,11 @@ export default function HomePage() {
         <p className="text-gray-400 text-sm mt-1">Stunning wallpapers, generated every hour</p>
       </div>
 
-      <CategoryBar
-        selected={selectedCategory}
-        onSelect={setSelectedCategory}
-      />
+      <CategoryBar selected={selectedCategory} onSelect={setSelectedCategory} />
 
       {loading ? (
         <div className="grid grid-cols-2 gap-3 mt-6">
-          {[...Array(4)].map((_, i) => (
-            <SkeletonCard key={i} />
-          ))}
+          {[...Array(4)].map((_, i) => <SkeletonCard key={i} />)}
         </div>
       ) : filtered.length === 0 ? (
         <div className="text-center py-16 text-gray-500">
