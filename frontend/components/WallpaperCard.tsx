@@ -33,7 +33,6 @@ export default function WallpaperCard({ wallpaper }: { wallpaper: Wallpaper }) {
     setIsFav(!isFav);
   };
 
-  // Format ID as a readable title (e.g., "neon-tiger-cyber-night" -> "Neon Tiger Cyber Night")
   const wallpaperTitle = wallpaper.id
     .split('-')
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
@@ -43,7 +42,6 @@ export default function WallpaperCard({ wallpaper }: { wallpaper: Wallpaper }) {
     <div className="group relative rounded-3xl overflow-hidden bg-black shadow-[0_0_20px_rgba(99,102,241,0.15)] hover:shadow-[0_0_30px_rgba(99,102,241,0.3)] transition-shadow duration-500">
       <Link href={`/w/${wallpaper.id}`}>
         <div className="relative w-full" style={{ aspectRatio: '9/16' }}>
-          {/* Skeleton loader */}
           {!imgLoaded && (
             <div className="absolute inset-0 bg-gray-900 animate-shimmer rounded-3xl" />
           )}
@@ -55,14 +53,14 @@ export default function WallpaperCard({ wallpaper }: { wallpaper: Wallpaper }) {
             loading="lazy"
           />
 
-          {/* Top-left category pill */}
+          {/* Category pill top-left */}
           <div className="absolute top-3 left-3 z-10">
             <span className="px-3 py-1 text-[11px] font-semibold text-white bg-black/40 backdrop-blur-md rounded-full shadow-lg">
               {wallpaper.category}
             </span>
           </div>
 
-          {/* Top-right heart button */}
+          {/* Heart button top-right */}
           <button
             onClick={toggleFav}
             className="absolute top-3 right-3 z-10 w-9 h-9 flex items-center justify-center rounded-full bg-black/40 backdrop-blur-md text-white shadow-lg hover:bg-black/60 transition-colors"
